@@ -1,3 +1,4 @@
+use crate::{ConflictList, ServerState};
 use axum::{
     extract::{self, State},
     Json,
@@ -5,25 +6,14 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Conflict {
-    id: i64,
-    name: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ConflictList {
-    conflicts: Vec<Conflict>,
-}
-
-pub async fn conflicts(State(conflict_list): State<Arc<ConflictList>>) -> Json<Arc<ConflictList>> {
-    Json(conflict_list)
+pub async fn conflicts(State(state): State<Arc<ServerState>>) -> Json<ConflictList> {
+    Json(state.conflict_list.read().unwrap().clone())
 }
 
 #[derive(Deserialize)]
 pub struct Answer {
-    id: i64,
-    name: String,
+    pub id: i64,
+    pub name: String,
 }
 
 #[derive(Serialize)]
