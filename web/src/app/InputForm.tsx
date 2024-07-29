@@ -6,10 +6,14 @@ import './InputForm.css';
 
 type InputFormProps = {
     setShowPopup: (showPopup: boolean) => void;
+    guesses: Guess[];
+    setGuesses: (guesses: Guess[]) => void;
 }
 
 export const InputForm = ({
                               setShowPopup,
+                              guesses,
+                              setGuesses,
                           }: InputFormProps) => {
     const [selected, setSelected] = useState<Option[]>([]);
 
@@ -17,9 +21,22 @@ export const InputForm = ({
         if (selected.length === 0) {
             return;
         }
-        console.log(selected[0]);
+
+        const selectedGuess = {
+            name: selected[0] as string,
+            belligerentsInCommon: []
+        };
+
+        if (guesses.some(guess => guess.name === selectedGuess.name)) {
+            // TODO: Show error message
+            return;
+        }
+
+        setGuesses([selectedGuess, ...guesses]);
 
         // TODO: Implement the logic to check if the selected name is correct
+
+        // TODO: Get belligerents in common
     }
 
     const handleGiveUp = () => {
