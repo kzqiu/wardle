@@ -1,3 +1,1 @@
-pub async fn health() -> String {
-    String::from("Hello world!")
-}
+pub async fn health() {}
