@@ -2,7 +2,23 @@
   "conflicts": [
     {
       "id": 0,
-      "name": "example conflict"
+      "name": "example conflict 0"
+    },
+    {
+      "id": 1,
+      "name": "example conflict 1"
+    },
+    {
+      "id": 2,
+      "name": "example conflict 2"
+    },
+    {
+      "id": 3,
+      "name": "example conflict 3"
+    },
+    {
+      "id": 4,
+      "name": "example conflict 4"
     }
   ]
 }

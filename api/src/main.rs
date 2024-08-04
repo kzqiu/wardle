@@ -1,26 +1,38 @@
 use api::routes::{game, health, session};
-use api::{Conflict, ConflictList, ServerState};
+use api::ServerState;
 use axum::{routing::get, routing::post, Router};
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
+use tokio_cron_scheduler::{Job, JobScheduler};
 
 #[tokio::main]
 async fn main() {
     // Set up app state, composed of:
     // 1. list of conflicts,
     // 2. target conflict.
-    let conflict_list: Arc<RwLock<ConflictList>> =
-        serde_json::from_str(include_str!("data/conflicts.json"))
-            .expect("Conflicts file was not well-formatted");
+    let state = Arc::new(ServerState::new());
 
-    let target_conflict = Arc::new(RwLock::new(Conflict {
-        id: 0,
-        name: String::from("test"),
-    }));
+    // Start job to change target_conflict every day.
+    let sched = JobScheduler::new().await.unwrap();
+    sched
+        .add(
+            // UTC-7 is west coast time
+            {
+                let s = state.clone();
+                // Testing: Job::new("1/10 * * * * *", move |_uuid, _l| {
+                Job::new("0 0 7 * * * *", move |_uuid, _l| {
+                    s.set_conflict();
+                    println!(
+                        "New target conflict: {:?}",
+                        s.target_conflict.read().unwrap()
+                    );
+                })
+                .unwrap()
+            },
+        )
+        .await
+        .unwrap();
 
-    let state = Arc::new(ServerState {
-        conflict_list,
-        target_conflict,
-    });
+    sched.start().await.unwrap();
 
     // Start router and begin listening.
     let app = Router::new()
