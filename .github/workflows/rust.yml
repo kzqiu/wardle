@@ -1,22 +1,28 @@
-name: Rust
+name: Cargo build and test
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  build_and_test:
+    name: Rust project - latest
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: api
+    strategy:
+      toolchain:
+        - stable
+        - beta
+        - nightly
     steps:
     - uses: actions/checkout@v4
+    - name: Update to toolchain
+      run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
     - name: Build
       run: cargo build --verbose
     - name: Run tests
