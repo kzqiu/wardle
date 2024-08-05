@@ -2,23 +2,36 @@
   "conflicts": [
     {
       "id": 0,
-      "name": "example conflict 0"
+      "name": "Chinese Civil War",
+      "start_date": 1927,
+      "end_date": 1936,
+      "casualties_min": 9500000,
+      "casualties_max": 13000000,
+      "belligerents": []
     },
     {
       "id": 1,
-      "name": "example conflict 1"
+      "name": "American Civil War",
+      "start_date": 1861,
+      "end_date": 1865,
+      "casualties_min": 616222,
+      "casualties_max": 1000000,
+      "belligerents": [
+        "USA",
+        "Confederate States"
+      ]
     },
     {
       "id": 2,
-      "name": "example conflict 2"
-    },
-    {
-      "id": 3,
-      "name": "example conflict 3"
-    },
-    {
-      "id": 4,
-      "name": "example conflict 4"
+      "name": "World War II",
+      "start_date": 1939,
+      "end_date": 1945,
+      "casualties_min": 70000000,
+      "casualties_max": 85000000,
+      "belligerents": [
+        "Allies",
+        "Axis"
+      ]
     }
   ]
 }

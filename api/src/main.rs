@@ -14,21 +14,20 @@ async fn main() {
     // Start job to change target_conflict every day.
     let sched = JobScheduler::new().await.unwrap();
     sched
-        .add(
+        .add({
+            let s = state.clone();
+            // Testing:
+            // Job::new("1/10 * * * * *", move |_uuid, _l| {
             // UTC-7 is west coast time
-            {
-                let s = state.clone();
-                // Testing: Job::new("*/1 * * * * *", move |_uuid, _l| {
-                Job::new("0 0 7 * * * *", move |_uuid, _l| {
-                    s.set_conflict();
-                    println!(
-                        "New target conflict: {:?}",
-                        s.target_conflict.read().unwrap()
-                    );
-                })
-                .unwrap()
-            },
-        )
+            Job::new("0 0 7 * * * *", move |_uuid, _l| {
+                s.set_conflict();
+                println!(
+                    "Setting conflict to: {:#?}",
+                    s.target_conflict.read().unwrap()
+                );
+            })
+            .unwrap()
+        })
         .await
         .unwrap();
 
