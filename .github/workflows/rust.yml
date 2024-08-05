@@ -2,17 +2,11 @@ name: Cargo build and test
 
 on:
   push:
-    paths:
-      - 'api/**'
-    branches:
-      - main
-      - 'api/**'
+    paths: [ 'api/**' ]
+    branches: [ 'main' ]
   pull_request:
-    paths:
-      - 'api/**'
-    branches:
-      - main
-      - 'api/**'
+    paths: [ 'api/**' ]
+    branches: [ "**" ]
 
 env:
   CARGO_TERM_COLOR: always
