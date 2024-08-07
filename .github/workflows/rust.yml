@@ -1,16 +1,19 @@
-name: Rust
+name: Cargo build and test
 
 on:
   push:
-    branches: [ "main" ]
+    paths: [ 'api/**' ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ "main" ]
+    paths: [ 'api/**' ]
+    branches: [ "**" ]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  build_and_test:
+    name: Rust project - latest
     runs-on: ubuntu-latest
     defaults:
       run:
